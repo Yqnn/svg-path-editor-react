@@ -322,7 +322,7 @@ export function Canvas() {
           {!preview
             ? images.map((im, index) => (
                 <image
-                  key={index}
+                  key={`${index}-${im.preserveAspectRatio ? 'meet' : 'none'}`}
                   href={im.data}
                   x={Math.min(im.x1, im.x2)}
                   y={Math.min(im.y1, im.y2)}

@@ -20,6 +20,7 @@ function AppContent() {
   const store = useEditor();
   const [panelMounted, setPanelMounted] = useState(true);
   const [panelClosing, setPanelClosing] = useState(false);
+  const [panelEntering, setPanelEntering] = useState(false);
   const [uploadDialog, setUploadDialog] = useState({ open: false, key: 0 });
 
   const openUpload = useCallback(() => {
@@ -43,12 +44,14 @@ function AppContent() {
     if (!store.isLeftPanelOpened) {
       setPanelMounted(true);
       setPanelClosing(false);
+      setPanelEntering(true);
       store.toggleLeftPanel();
     }
   };
 
   const closePanel = () => {
     if (store.isLeftPanelOpened) {
+      setPanelEntering(false);
       setPanelClosing(true);
       store.toggleLeftPanel();
     }
@@ -134,10 +137,13 @@ function AppContent() {
         {panelMounted ? (
           <LeftPanel
             closing={panelClosing}
+            entering={panelEntering}
             onCloseClick={closePanel}
+            onEntered={() => setPanelEntering(false)}
             onClosed={() => {
               setPanelMounted(false);
               setPanelClosing(false);
+              setPanelEntering(false);
             }}
           />
         ) : null}

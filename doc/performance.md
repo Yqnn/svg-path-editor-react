@@ -113,3 +113,52 @@ frame), like the Angular builds.
 - During this comparison the React implementation was improved with coalesced store
   notifications, memoized command rows/static panel sections/the grid, and a cached path
   string for rendering. Without those changes the throttled drag was substantially slower.
+
+## Large path benchmark (~1000 commands)
+
+A stress test with a generated path containing exactly **1,000 commands** (`M` followed by
+999 mixed `L`/`C`/`Q`/`A` commands, 19,662 bytes). The resulting editor renders 1,000 command
+rows and 1,290 SVG circles. The path was seeded as the current path in `localStorage` before
+boot, and the same compiled builds were used.
+
+Methodology is the same as above, except the path is local so network throttling was disabled;
+the payload is the same as in the earlier tests. Results are medians of 3 runs at 1× CPU and
+2 runs at 4× CPU. The drag benchmark uses 30 mousemoves (one per animation frame).
+
+**1× CPU (unthrottled desktop)**
+
+| Metric             | Angular 17 | Angular 22 |     React 19 |
+| ------------------ | ---------: | ---------: | -----------: |
+| Load event         |     5.74 s | **5.04 s** |       5.53 s |
+| Ready (1,000 rows) |     5.39 s | **3.99 s** |       4.94 s |
+| FCP                |     4.48 s | **4.07 s** |       5.01 s |
+| TBT                |     239 ms |     537 ms |    **56 ms** |
+| DOM nodes          |     15,988 |     16,011 |   **11,125** |
+| JS heap            |      60 MB |  **51 MB** |       101 MB |
+| 30-step drag       |   3,299 ms |   3,769 ms | **2,022 ms** |
+| Average drag frame |   107.9 ms |   122.6 ms |  **66.0 ms** |
+| p95 drag frame     |   152.3 ms |   166.2 ms |  **89.3 ms** |
+
+**4× CPU (stress)**
+
+| Metric             | Angular 17 | Angular 22 |     React 19 |
+| ------------------ | ---------: | ---------: | -----------: |
+| Load event         |     27.0 s | **23.4 s** |       24.2 s |
+| Ready (1,000 rows) |     25.4 s | **18.5 s** |       22.2 s |
+| FCP                |     20.7 s | **18.5 s** |       21.8 s |
+| TBT                |   2,879 ms |   3,945 ms | **1,117 ms** |
+| JS heap            |      68 MB |  **38 MB** |       102 MB |
+| 30-step drag       |     14.9 s |     17.1 s |    **8.6 s** |
+| Average drag frame |     486 ms |     556 ms |   **281 ms** |
+| p95 drag frame     |     666 ms |     757 ms |   **378 ms** |
+
+Observations:
+
+- On a 1,000-command path, React's interaction cost is significantly lower:
+  the 30-step drag is **39–46% faster** than Angular 17/22, with roughly half the per-frame
+  time, because unchanged command rows are memoized.
+- React also renders about 31% fewer DOM nodes and has the lowest TBT.
+- Angular 22 reaches the ready state 1–3.7 s earlier on this stress test, because its initial
+  template rendering of 1,000 rows is cheaper than mounting 1,000 MUI rows and tooltips.
+- React uses roughly twice the JS heap at this scale. All three builds fall well below 60 fps
+  on a 1,000-point canvas, so this path size is a stress case rather than a typical workload.

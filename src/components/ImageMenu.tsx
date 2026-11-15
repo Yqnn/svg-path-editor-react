@@ -44,7 +44,7 @@ export function ImageMenu({ anchorEl, open, image, onClose, alignRight = false }
           <Icon>opacity</Icon>
         </ListItemIcon>
         Opacity
-        <div style={{ display: 'inline-block', width: 180 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', width: 180 }}>
           <Slider
             min={0}
             max={1}
@@ -55,7 +55,7 @@ export function ImageMenu({ anchorEl, open, image, onClose, alignRight = false }
             }}
             style={{ margin: '0 16px', minWidth: 100, width: 100 }}
           />
-          {image.opacity}
+          <span>{image.opacity}</span>
         </div>
       </MenuItem>
       <MenuItem

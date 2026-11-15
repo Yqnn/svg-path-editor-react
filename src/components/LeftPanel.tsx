@@ -25,11 +25,19 @@ type NumberField =
 
 interface LeftPanelProps {
   closing: boolean;
+  entering: boolean;
   onClosed: () => void;
+  onEntered: () => void;
   onCloseClick: () => void;
 }
 
-export function LeftPanel({ closing, onClosed, onCloseClick }: LeftPanelProps) {
+export function LeftPanel({
+  closing,
+  entering,
+  onClosed,
+  onEntered,
+  onCloseClick,
+}: LeftPanelProps) {
   const store = useStore();
   const { cfg } = store;
   const [addAnchor, setAddAnchor] = useState<HTMLElement | null>(null);
@@ -48,6 +56,8 @@ export function LeftPanel({ closing, onClosed, onCloseClick }: LeftPanelProps) {
     store.refreshCanvasSize();
     if (closing) {
       onClosed();
+    } else if (entering) {
+      onEntered();
     }
   };
 
@@ -452,7 +462,7 @@ export function LeftPanel({ closing, onClosed, onCloseClick }: LeftPanelProps) {
 
   return (
     <div
-      className={`left-column-wrapper ${closing ? 'left-column-leave' : 'left-column-enter'}`}
+      className={`left-column-wrapper${closing ? ' left-column-leave' : entering ? ' left-column-enter' : ''}`}
       onAnimationEnd={handleAnimationEnd}
     >
       <RaisedButton

@@ -116,14 +116,20 @@ export function CommandMenu({ anchorEl, open, item, onClose }: CommandMenuProps)
         anchorOrigin={origins.anchorOrigin}
         transformOrigin={origins.transformOrigin}
       >
-        <MenuItem onClick={(event) => setSubmenu({ anchor: event.currentTarget, convert: false })}>
+        <MenuItem
+          onMouseEnter={(event) => setSubmenu({ anchor: event.currentTarget, convert: false })}
+          onClick={(event) => setSubmenu({ anchor: event.currentTarget, convert: false })}
+        >
           <ListItemIcon>
             <Icon>add</Icon>
           </ListItemIcon>
           Insert After
           <SubmenuArrow />
         </MenuItem>
-        <MenuItem onClick={(event) => setSubmenu({ anchor: event.currentTarget, convert: true })}>
+        <MenuItem
+          onMouseEnter={(event) => setSubmenu({ anchor: event.currentTarget, convert: true })}
+          onClick={(event) => setSubmenu({ anchor: event.currentTarget, convert: true })}
+        >
           <ListItemIcon>
             <Icon>autorenew</Icon>
           </ListItemIcon>
@@ -131,6 +137,7 @@ export function CommandMenu({ anchorEl, open, item, onClose }: CommandMenuProps)
           <SubmenuArrow />
         </MenuItem>
         <MenuItem
+          onMouseEnter={() => setSubmenu({ anchor: null, convert: false })}
           onClick={() => {
             item.setRelative(!item.relative);
             store.afterModelChange();
@@ -144,6 +151,7 @@ export function CommandMenu({ anchorEl, open, item, onClose }: CommandMenuProps)
         </MenuItem>
         <MenuItem
           disabled={!store.canUseAsOrigin(item)}
+          onMouseEnter={() => setSubmenu({ anchor: null, convert: false })}
           onClick={() => {
             store.useAsOrigin(item);
             closeAll();
@@ -156,6 +164,7 @@ export function CommandMenu({ anchorEl, open, item, onClose }: CommandMenuProps)
         </MenuItem>
         <MenuItem
           disabled={!store.canUseAsOrigin(item) || !store.hasSubPaths()}
+          onMouseEnter={() => setSubmenu({ anchor: null, convert: false })}
           onClick={() => {
             store.useAsOrigin(item, true);
             closeAll();
@@ -168,6 +177,7 @@ export function CommandMenu({ anchorEl, open, item, onClose }: CommandMenuProps)
         </MenuItem>
         <MenuItem
           disabled={!store.hasSubPaths()}
+          onMouseEnter={() => setSubmenu({ anchor: null, convert: false })}
           onClick={() => {
             store.reverseSubPath(item);
             closeAll();
@@ -180,6 +190,7 @@ export function CommandMenu({ anchorEl, open, item, onClose }: CommandMenuProps)
         </MenuItem>
         <MenuItem
           disabled={!store.canDelete(item)}
+          onMouseEnter={() => setSubmenu({ anchor: null, convert: false })}
           onClick={() => {
             store.delete(item);
             closeAll();

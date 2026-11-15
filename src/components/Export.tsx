@@ -228,7 +228,7 @@ export function Export() {
         <Fab
           size="small"
           color="primary"
-          style={{ marginRight: 8 }}
+          style={{ marginRight: 8, marginLeft: 0 }}
           onClick={() => setDialog((state) => ({ open: true, key: state.key + 1 }))}
           aria-label="Download as SVG"
         >

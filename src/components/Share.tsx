@@ -103,7 +103,13 @@ export function Share() {
   return (
     <>
       <AppTooltip title="Share as link">
-        <Fab size="small" color="primary" onClick={() => setOpen(true)} aria-label="Share as link">
+        <Fab
+          size="small"
+          color="primary"
+          style={{ marginLeft: 0 }}
+          onClick={() => setOpen(true)}
+          aria-label="Share as link"
+        >
           <Icon>share</Icon>
         </Fab>
       </AppTooltip>

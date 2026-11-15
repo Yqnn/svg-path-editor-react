@@ -170,6 +170,14 @@ textarea.app-input:focus {
 .checkbox-field .MuiSvgIcon-root {
   font-size: 18px;
 }
+.small-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
 .small-checkbox .MuiCheckbox-root {
   padding: 0;
   margin: 0;
@@ -280,7 +288,8 @@ button.more-button.MuiIconButton-root .MuiTouchRipple-root {
   font-size: 11px;
 }
 
-.open-dialog-table {
+.open-dialog-table,
+.open-dialog-table.MuiTable-root {
   margin: 0 -24px;
   width: calc(100% + 48px);
 }
@@ -554,7 +563,9 @@ textarea {
 }
 .drawings .scene-top-actions > .add-image-button {
   position: absolute;
-  margin-left: 24px;
+  right: 112px;
+  left: auto;
+  margin-left: 0;
   top: 0;
   opacity: 0;
   transition:

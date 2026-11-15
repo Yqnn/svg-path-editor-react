@@ -99,6 +99,7 @@ export const theme = createTheme({
           borderRadius: 4,
           minWidth: 40,
           maxWidth: 200,
+          textAlign: 'center',
         },
       },
     },
