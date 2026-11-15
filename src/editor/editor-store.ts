@@ -22,6 +22,7 @@ type Listener = () => void;
 export class EditorStore {
   private readonly listeners = new Set<Listener>();
   private version = 0;
+  private notifyScheduled = false;
 
   readonly cfg: Config = createConfig();
   readonly exportCfg: ExportConfig = createExportConfig();
@@ -34,6 +35,8 @@ export class EditorStore {
 
   // Raw path:
   private _rawPath = '';
+  /** Non-minified path string used by the canvas renderer. */
+  renderPath = '';
   pathName = '';
   invalidSyntax = false;
 
@@ -102,11 +105,25 @@ export class EditorStore {
 
   getSnapshot = (): number => this.version;
 
+  /**
+   * Coalesces all store changes that happen in the same task into a single
+   * notification, like Angular's change detection does after an event. This
+   * avoids rendering the whole editor several times for one pointer move
+   * (hover position, path, focused item and cursor position are updated in
+   * sequence by `drag`).
+   */
   emit() {
     this.version++;
-    for (const listener of this.listeners) {
-      listener();
+    if (this.notifyScheduled) {
+      return;
     }
+    this.notifyScheduled = true;
+    queueMicrotask(() => {
+      this.notifyScheduled = false;
+      for (const listener of this.listeners) {
+        listener();
+      }
+    });
   }
 
   updateCfg(patch: Partial<Config>) {
@@ -476,7 +493,8 @@ export class EditorStore {
 
   afterModelChange() {
     this.reloadPoints();
-    this.rawPath = this.parsedPath.asString(4, this.cfg.minifyOutput);
+    this.renderPath = this.parsedPath.asString(4, false);
+    this.rawPath = this.cfg.minifyOutput ? this.parsedPath.asString(4, true) : this.renderPath;
     if (this.focusedItem && this.parsedPath.path.indexOf(this.focusedItem) === -1) {
       this.focusedItem = null;
     }
@@ -573,6 +591,7 @@ export class EditorStore {
     this.invalidSyntax = false;
     try {
       this.parsedPath = new SvgPath(this.rawPath);
+      this.renderPath = this.parsedPath.asString(4, false);
       this.reloadPoints();
       if (autozoom) {
         this.zoomAuto();

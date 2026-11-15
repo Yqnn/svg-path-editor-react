@@ -342,11 +342,11 @@ button.more-button.MuiIconButton-root .MuiTouchRipple-root {
 }
 
 .left-column-enter {
-  animation: left-column-enter 100ms ease;
+  animation: left-column-enter 100ms ease both;
 }
 
 .left-column-leave {
-  animation: left-column-leave 100ms ease;
+  animation: left-column-leave 100ms ease forwards;
 }
 
 @keyframes left-column-enter {
@@ -498,10 +498,10 @@ textarea {
   overflow: hidden;
 }
 .panel-enter {
-  animation: panel-enter 100ms ease;
+  animation: panel-enter 100ms ease both;
 }
 .panel-leave {
-  animation: panel-leave 100ms ease;
+  animation: panel-leave 100ms ease forwards;
 }
 @keyframes panel-enter {
   from {

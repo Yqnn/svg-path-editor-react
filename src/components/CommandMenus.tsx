@@ -5,7 +5,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Icon from '@mui/material/Icon';
 import type { SvgItem } from '../lib/svg';
 import type { SvgCommandType } from '../lib/svg-command-types';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { getMenuOrigins, SubmenuArrow } from './menu-position';
 
 const COMMAND_TYPES: { type: SvgCommandType; label: string }[] = [
@@ -40,7 +40,7 @@ export function CreateCommandMenu({
   onInserted,
   side = false,
 }: CreateCommandMenuProps) {
-  const store = useEditor();
+  const store = useStore();
   const origins = getMenuOrigins(anchorEl, COMMAND_TYPES.length, side ? 'side' : 'default');
 
   return (
@@ -85,7 +85,7 @@ interface CommandMenuProps {
 }
 
 export function CommandMenu({ anchorEl, open, item, onClose }: CommandMenuProps) {
-  const store = useEditor();
+  const store = useStore();
   const [submenu, setSubmenu] = useState<{ anchor: HTMLElement | null; convert: boolean }>({
     anchor: null,
     convert: false,

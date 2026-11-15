@@ -1,6 +1,6 @@
 import Fab from '@mui/material/Fab';
 import Icon from '@mui/material/Icon';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { AppTooltip } from './AppTooltip';
 import { Export } from './Export';
 import { Share } from './Share';
@@ -12,7 +12,7 @@ interface SceneActionsProps {
 }
 
 export function SceneActions({ onOpenUpload }: SceneActionsProps) {
-  const store = useEditor();
+  const store = useStore();
   const { cfg } = store;
 
   const toggleImageEditing = () => {

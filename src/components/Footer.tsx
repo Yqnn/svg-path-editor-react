@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import { GithubIcon, SponsorIcon } from './icons';
 
-export function Footer() {
+export const Footer = memo(function Footer() {
   return (
     <div className="footer">
       <a href="https://github.com/Yqnn/svg-path-editor" target="_blank" rel="noreferrer">
@@ -11,4 +12,4 @@ export function Footer() {
       </a>
     </div>
   );
-}
+});

@@ -1,18 +1,18 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { SvgControlPoint, SvgPoint } from '../lib/svg';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 
 function round(value: number): number {
   return Math.round(value * 1e10) / 1e10;
 }
 
 export function Canvas() {
-  const store = useEditor();
+  const store = useStore();
   const svgRef = useRef<SVGSVGElement>(null);
   const wheelBuffer = useRef<WheelEvent[]>([]);
   const wheelTimer = useRef<number | null>(null);
 
-  const { cfg, parsedPath, targetPoints, controlPoints, images, strokeWidth } = store;
+  const { cfg, renderPath, targetPoints, controlPoints, images, strokeWidth } = store;
   const preview = cfg.preview;
   const filled = cfg.filled;
   const showTicks = cfg.showTicks;
@@ -207,6 +207,108 @@ export function Canvas() {
   const focusedImage = store.focusedImage;
   const editImages = store.isEditingImages;
 
+  const gridElements = useMemo(
+    () => (
+      <>
+        {grid.xGrid.map((x, index) => (
+          <rect
+            key={`x-${index}`}
+            className="grid"
+            x={x - 0.5 * strokeWidth}
+            y={cfg.viewPortY}
+            width={strokeWidth}
+            height={cfg.viewPortHeight}
+          />
+        ))}
+        {grid.yGrid.map((y, index) => (
+          <rect
+            key={`y-${index}`}
+            className="grid"
+            x={cfg.viewPortX}
+            y={y - 0.5 * strokeWidth}
+            width={cfg.viewPortWidth}
+            height={strokeWidth}
+          />
+        ))}
+        {grid.xGridSecondary.map((x, index) => (
+          <rect
+            key={`xs-${index}`}
+            className="grid tick"
+            x={x - 0.5 * strokeWidth}
+            y={cfg.viewPortY}
+            width={strokeWidth}
+            height={cfg.viewPortHeight}
+            strokeWidth={strokeWidth}
+          />
+        ))}
+        {grid.yGridSecondary.map((y, index) => (
+          <rect
+            key={`ys-${index}`}
+            className="grid tick"
+            x={cfg.viewPortX}
+            y={y - 0.5 * strokeWidth}
+            width={cfg.viewPortWidth}
+            height={strokeWidth}
+            strokeWidth={strokeWidth}
+          />
+        ))}
+        <rect
+          className={showTicks ? 'grid tick' : 'grid'}
+          x={cfg.viewPortX}
+          y={-2 * strokeWidth}
+          width={cfg.viewPortWidth}
+          height={4 * strokeWidth}
+        />
+        <rect
+          className={showTicks ? 'grid tick' : 'grid'}
+          x={-2 * strokeWidth}
+          y={cfg.viewPortY}
+          width={4 * strokeWidth}
+          height={cfg.viewPortHeight}
+        />
+        {!preview && showTicks ? (
+          <>
+            {grid.yGridSecondary.map((y, index) => (
+              <text
+                key={`yt-${index}`}
+                className="tick"
+                x={-4 * strokeWidth}
+                y={y - 4 * strokeWidth}
+                style={{ fontSize: `${strokeWidth * 14}px` }}
+              >
+                {y}
+              </text>
+            ))}
+            {grid.xGridSecondary.map((x, index) =>
+              x !== 0 ? (
+                <text
+                  key={`xt-${index}`}
+                  className="tick"
+                  x={x - 4 * strokeWidth}
+                  y={-4 * strokeWidth}
+                  style={{ fontSize: `${strokeWidth * 14}px` }}
+                >
+                  {x}
+                </text>
+              ) : null,
+            )}
+          </>
+        ) : null}
+      </>
+    ),
+    // The grid only depends on the viewport and tick settings.
+    [
+      grid,
+      cfg.viewPortX,
+      cfg.viewPortY,
+      cfg.viewPortWidth,
+      cfg.viewPortHeight,
+      strokeWidth,
+      showTicks,
+      preview,
+    ],
+  );
+
   return (
     <svg
       ref={svgRef}
@@ -216,90 +318,7 @@ export function Canvas() {
     >
       {strokeWidth ? (
         <>
-          {grid.xGrid.map((x, index) => (
-            <rect
-              key={`x-${index}`}
-              className="grid"
-              x={x - 0.5 * strokeWidth}
-              y={cfg.viewPortY}
-              width={strokeWidth}
-              height={cfg.viewPortHeight}
-            />
-          ))}
-          {grid.yGrid.map((y, index) => (
-            <rect
-              key={`y-${index}`}
-              className="grid"
-              x={cfg.viewPortX}
-              y={y - 0.5 * strokeWidth}
-              width={cfg.viewPortWidth}
-              height={strokeWidth}
-            />
-          ))}
-          {grid.xGridSecondary.map((x, index) => (
-            <rect
-              key={`xs-${index}`}
-              className="grid tick"
-              x={x - 0.5 * strokeWidth}
-              y={cfg.viewPortY}
-              width={strokeWidth}
-              height={cfg.viewPortHeight}
-              strokeWidth={strokeWidth}
-            />
-          ))}
-          {grid.yGridSecondary.map((y, index) => (
-            <rect
-              key={`ys-${index}`}
-              className="grid tick"
-              x={cfg.viewPortX}
-              y={y - 0.5 * strokeWidth}
-              width={cfg.viewPortWidth}
-              height={strokeWidth}
-              strokeWidth={strokeWidth}
-            />
-          ))}
-          <rect
-            className={showTicks ? 'grid tick' : 'grid'}
-            x={cfg.viewPortX}
-            y={-2 * strokeWidth}
-            width={cfg.viewPortWidth}
-            height={4 * strokeWidth}
-          />
-          <rect
-            className={showTicks ? 'grid tick' : 'grid'}
-            x={-2 * strokeWidth}
-            y={cfg.viewPortY}
-            width={4 * strokeWidth}
-            height={cfg.viewPortHeight}
-          />
-          {!preview && showTicks ? (
-            <>
-              {grid.yGridSecondary.map((y, index) => (
-                <text
-                  key={`yt-${index}`}
-                  className="tick"
-                  x={-4 * strokeWidth}
-                  y={y - 4 * strokeWidth}
-                  style={{ fontSize: `${strokeWidth * 14}px` }}
-                >
-                  {y}
-                </text>
-              ))}
-              {grid.xGridSecondary.map((x, index) =>
-                x !== 0 ? (
-                  <text
-                    key={`xt-${index}`}
-                    className="tick"
-                    x={x - 4 * strokeWidth}
-                    y={-4 * strokeWidth}
-                    style={{ fontSize: `${strokeWidth * 14}px` }}
-                  >
-                    {x}
-                  </text>
-                ) : null,
-              )}
-            </>
-          ) : null}
+          {gridElements}
           {!preview
             ? images.map((im, index) => (
                 <image
@@ -316,7 +335,7 @@ export function Canvas() {
             : null}
           <path
             className={filled ? 'filled' : undefined}
-            d={parsedPath.asString()}
+            d={renderPath}
             strokeWidth={strokeWidth}
           />
           {!editImages ? (

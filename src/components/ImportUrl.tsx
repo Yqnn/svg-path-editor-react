@@ -4,7 +4,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { SvgPath } from '../lib/svg';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { kDefaultPath } from '../editor/constants/default-path.const';
 import { PathPreview } from './PathPreview';
 import { RaisedButton } from './buttons';
@@ -79,7 +79,7 @@ function ImportDialog({ open, path, onDiscard, onImport }: ImportDialogProps) {
  * for confirmation when the current path has unsaved changes.
  */
 export function ImportFromUrl() {
-  const store = useEditor();
+  const store = useStore();
 
   const [initial] = useState(() => {
     const urlPath = readPathFromUrl();

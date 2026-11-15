@@ -4,7 +4,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Icon from '@mui/material/Icon';
 import Slider from '@mui/material/Slider';
 import type { Image } from '../editor/image';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { getMenuOrigins } from './menu-position';
 
 interface ImageMenuProps {
@@ -16,7 +16,7 @@ interface ImageMenuProps {
 }
 
 export function ImageMenu({ anchorEl, open, image, onClose, alignRight = false }: ImageMenuProps) {
-  const store = useEditor();
+  const store = useStore();
 
   const origins = getMenuOrigins(anchorEl, 3, alignRight ? 'before' : 'default');
 

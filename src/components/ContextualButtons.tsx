@@ -2,13 +2,13 @@ import { useState, type MouseEvent as ReactMouseEvent } from 'react';
 import Fab from '@mui/material/Fab';
 import Icon from '@mui/material/Icon';
 import type { SvgItem } from '../lib/svg';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { MoreIcon } from './icons';
 import { CommandMenu, CreateCommandMenu } from './CommandMenus';
 import { ImageMenu } from './ImageMenu';
 
 export function ContextualAddButton() {
-  const store = useEditor();
+  const store = useStore();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [menuItem, setMenuItem] = useState<SvgItem | null>(null);
 
@@ -64,7 +64,7 @@ export function ContextualAddButton() {
 }
 
 export function ContextualImageButton() {
-  const store = useEditor();
+  const store = useStore();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [alignRight, setAlignRight] = useState(false);
   const image = store.focusedImage;

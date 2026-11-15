@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme';
 import { EditorStore } from './editor/editor-store';
@@ -22,9 +22,22 @@ function AppContent() {
   const [panelClosing, setPanelClosing] = useState(false);
   const [uploadDialog, setUploadDialog] = useState({ open: false, key: 0 });
 
-  const openUpload = () => {
+  const openUpload = useCallback(() => {
     setUploadDialog((state) => ({ open: true, key: state.key + 1 }));
-  };
+  }, []);
+
+  const actionsSignature = [
+    store.canUndo(),
+    store.canRedo(),
+    store.isEditingImages,
+    store.cfg.snapToGrid,
+  ].join('|');
+  const sceneActions = useMemo(
+    () => <SceneActions onOpenUpload={openUpload} />,
+    // The signature captures every store value SceneActions displays.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [actionsSignature, openUpload],
+  );
 
   const openPanel = () => {
     if (!store.isLeftPanelOpened) {
@@ -157,7 +170,7 @@ function AppContent() {
 
           <ContextualImageButton />
 
-          <SceneActions onOpenUpload={openUpload} />
+          {sceneActions}
 
           <Canvas />
         </div>

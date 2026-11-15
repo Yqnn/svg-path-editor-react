@@ -122,6 +122,11 @@ docker compose up --build
 
 The dev server is exposed on `http://localhost:5173/`.
 
+## Performance
+
+Bundle size and startup/interaction benchmarks against the compiled Angular 17 and Angular 22
+builds are documented in [`doc/performance.md`](./doc/performance.md).
+
 ## Deployment (gh-pages)
 
 The build pipeline publishes the contents of `dist/` to the `gh-pages` branch.

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import type { SvgItem } from '../lib/svg';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { NumberInput } from './NumberInput';
 import { AppTooltip } from './AppTooltip';
 import { MoreIcon } from './icons';
@@ -11,10 +11,16 @@ import { CommandMenu } from './CommandMenus';
 interface CommandRowProps {
   item: SvgItem;
   index: number;
+  /**
+   * Changes only when the row's rendered state changes. Props are compared by
+   * `memo` so that dragging a point only re-renders the affected command row
+   * instead of all of them.
+   */
+  signature: string;
 }
 
-export function CommandRow({ item, index }: CommandRowProps) {
-  const store = useEditor();
+export const CommandRow = memo(function CommandRow({ item, index }: CommandRowProps) {
+  const store = useStore();
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 
   const isArc = item.getType().toLowerCase() === 'a';
@@ -113,4 +119,4 @@ export function CommandRow({ item, index }: CommandRowProps) {
       />
     </div>
   );
-}
+});

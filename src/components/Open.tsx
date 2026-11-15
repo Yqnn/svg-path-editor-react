@@ -12,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { SvgPath } from '../lib/svg';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { AppTooltip } from './AppTooltip';
 import { RaisedButton } from './buttons';
 
@@ -49,7 +49,7 @@ interface OpenDialogProps {
 }
 
 export function OpenDialog({ open, onClose }: OpenDialogProps) {
-  const store = useEditor();
+  const store = useStore();
   const [sort, setSort] = useState<{ column: SortColumn; direction: 'asc' | 'desc' } | null>(null);
   const [beingRemoved, setBeingRemoved] = useState<string | undefined>(undefined);
   const [refresh, setRefresh] = useState(0);
@@ -224,7 +224,7 @@ export function OpenDialog({ open, onClose }: OpenDialogProps) {
 }
 
 export function Open() {
-  const store = useEditor();
+  const store = useStore();
   const [dialog, setDialog] = useState({ open: false, key: 0 });
 
   return (

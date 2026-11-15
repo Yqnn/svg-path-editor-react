@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { PathPreview } from './PathPreview';
 import { FilledField } from './FilledField';
 import { AppTooltip } from './AppTooltip';
@@ -97,7 +97,7 @@ export function ShareDialog({ open, path, onClose }: ShareDialogProps) {
 }
 
 export function Share() {
-  const store = useEditor();
+  const store = useStore();
   const [open, setOpen] = useState(false);
 
   return (

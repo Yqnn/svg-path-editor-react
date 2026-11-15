@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { SvgPath } from '../lib/svg';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { browserComputePathBoundingBox } from '../editor/svg-bbox';
 import { PathPreview } from './PathPreview';
 import { FilledField } from './FilledField';
@@ -25,7 +25,7 @@ interface ExportDialogProps {
 }
 
 export function ExportDialog({ open, path, name, onClose }: ExportDialogProps) {
-  const store = useEditor();
+  const store = useStore();
   const cfg = store.exportCfg;
   const { showCopied } = useSnackbar();
 
@@ -219,7 +219,7 @@ export function ExportDialog({ open, path, name, onClose }: ExportDialogProps) {
 }
 
 export function Export() {
-  const store = useEditor();
+  const store = useStore();
   const [dialog, setDialog] = useState({ open: false, key: 0 });
 
   return (

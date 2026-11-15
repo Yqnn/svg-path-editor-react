@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { useEditor } from '../editor/EditorProvider';
+import { useStore } from '../editor/EditorProvider';
 import { AppTooltip } from './AppTooltip';
 import { FilledField } from './FilledField';
 import { RaisedButton } from './buttons';
@@ -16,7 +16,7 @@ interface SaveDialogProps {
 }
 
 export function SaveDialog({ open, onClose }: SaveDialogProps) {
-  const store = useEditor();
+  const store = useStore();
   const [name, setName] = useState(() => {
     let defaultName = store.pathName;
     if (!defaultName) {
