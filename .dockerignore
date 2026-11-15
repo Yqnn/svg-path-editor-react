@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+.git
+.angular
+dist
+dev-dist
+src/lib/dist
+coverage
