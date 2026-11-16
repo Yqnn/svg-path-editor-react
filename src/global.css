@@ -859,6 +859,15 @@ textarea {
   font-size: 16px;
   line-height: 24px;
 }
+.submenu-menu {
+  pointer-events: none;
+}
+.submenu-menu .MuiMenu-paper {
+  pointer-events: auto;
+}
+.submenu-menu .MuiBackdrop-root {
+  pointer-events: none;
+}
 .menu-submenu-arrow {
   position: absolute;
   right: 40px;

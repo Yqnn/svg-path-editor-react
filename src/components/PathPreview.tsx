@@ -22,13 +22,21 @@ export function PathPreview({
   strokeColor,
   strokeWidth,
 }: PathPreviewProps) {
-  const [viewport] = useState(() => {
-    if (x === undefined || y === undefined || width === undefined || height === undefined) {
-      const bbox = browserComputePathBoundingBox(path);
-      return { x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height };
-    }
-    return { x, y, width, height };
-  });
+  const [bbox] = useState(() =>
+    x === undefined || y === undefined || width === undefined || height === undefined
+      ? browserComputePathBoundingBox(path)
+      : null,
+  );
+
+  // When the caller provides a viewBox (the export dialog), follow its values
+  // so editing the fields updates the preview immediately. Otherwise use the
+  // bounding box computed when the dialog was opened.
+  const viewport = {
+    x: x ?? bbox?.x ?? 0,
+    y: y ?? bbox?.y ?? 0,
+    width: width ?? bbox?.width ?? 0,
+    height: height ?? bbox?.height ?? 0,
+  };
 
   const patternScale = Math.max(viewport.width / 400, viewport.height / 400);
 

@@ -33,11 +33,19 @@ function AppContent() {
     store.isEditingImages,
     store.cfg.snapToGrid,
   ].join('|');
+  const exportConfigSignature = [
+    store.exportCfg.fill,
+    store.exportCfg.fillColor,
+    store.exportCfg.stroke,
+    store.exportCfg.strokeColor,
+    store.exportCfg.strokeWidth,
+  ].join('|');
   const sceneActions = useMemo(
     () => <SceneActions onOpenUpload={openUpload} />,
-    // The signature captures every store value SceneActions displays.
+    // The signatures capture every store value SceneActions and the export
+    // dialog inside it display.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [actionsSignature, openUpload],
+    [actionsSignature, exportConfigSignature, openUpload],
   );
 
   const openPanel = () => {

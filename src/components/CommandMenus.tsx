@@ -50,6 +50,8 @@ export function CreateCommandMenu({
       onClose={onClose}
       transitionDuration={120}
       marginThreshold={0}
+      className={side ? 'submenu-menu' : undefined}
+      slotProps={side ? { backdrop: { sx: { pointerEvents: 'none' } } } : undefined}
       anchorOrigin={origins.anchorOrigin}
       transformOrigin={origins.transformOrigin}
     >
