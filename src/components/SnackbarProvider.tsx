@@ -28,14 +28,7 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         sx={{ top: 8 }}
       >
-        <SnackbarContent
-          message={
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{ flex: 1 }}>Copied to clipboard</span>
-              <Icon>content_pasted</Icon>
-            </div>
-          }
-        />
+        <SnackbarContent message="Copied to clipboard" action={<Icon>content_pasted</Icon>} />
       </Snackbar>
     </SnackbarContext.Provider>
   );

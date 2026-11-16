@@ -16,6 +16,22 @@
   -webkit-font-smoothing: antialiased;
 }
 
+/* MUI v9 sizes medium icons at 1.28571rem (20.57px). The Angular Material
+   app uses 24px icons, so restore that size here. */
+.material-icons.MuiIcon-root,
+.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
+  font-size: 24px;
+}
+
+/* Keep the snackbar action icon inset from the right edge like Angular. */
+.MuiSnackbarContent-root .MuiSnackbarContent-action {
+  margin-right: 0;
+}
+.MuiSnackbarContent-message {
+  font-size: 12px;
+  line-height: 12px;
+}
+
 /* You can add global styles to this file, and also import other style files */
 html {
   font-family: Roboto, Arial, 'Helvetica Neue', sans-serif;
@@ -111,7 +127,8 @@ textarea.app-input:focus {
   min-width: auto !important;
   border-radius: 4px;
 }
-.flat-button.MuiButton-root .MuiSvgIcon-root {
+.flat-button.MuiButton-root .MuiSvgIcon-root,
+.flat-button.MuiButton-root .MuiIcon-root {
   margin: 0;
   width: 20px;
   height: 20px;
@@ -396,7 +413,9 @@ button.more-button.MuiIconButton-root .MuiTouchRipple-root {
   min-height: 0;
 }
 .left-column-close.MuiButton-root .MuiSvgIcon-root,
-.left-column-open.MuiButton-root .MuiSvgIcon-root {
+.left-column-close.MuiButton-root .MuiIcon-root,
+.left-column-open.MuiButton-root .MuiSvgIcon-root,
+.left-column-open.MuiButton-root .MuiIcon-root {
   margin: 0;
   width: 28px;
   height: 28px;
