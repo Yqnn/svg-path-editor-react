@@ -131,9 +131,9 @@ builds are documented in [`doc/performance.md`](./doc/performance.md).
 
 The build pipeline publishes the contents of `dist/` to the `gh-pages` branch.
 
-- `npm run build:gh` builds with the `/svg-path-editor/` base path used by GitHub Pages.
-- `npm run deploy:gh-pages` builds, clones the target `gh-pages` branch, replaces its contents, commits, and (after confirmation) pushes it. By default it targets `https://github.com/Yqnn/svg-path-editor.git`; override it with `GH_PAGES_REPO` (and optionally `GH_PAGES_BASE`, `GH_PAGES_BRANCH`, `GH_PAGES_YES=1`).
-- `.github/workflows/deploy-gh-pages.yml` runs the tests, builds the app, and publishes `dist/` to the current repository's `gh-pages` branch on every push to `main`/`master`. If a `GH_PAGES_TOKEN` secret (a token with write access to `Yqnn/svg-path-editor`) is configured, it mirrors the deliverable to that repository's `gh-pages` branch instead.
+- `npm run build:gh` builds with the `/svg-path-editor-react/` base path used by GitHub Pages.
+- `npm run deploy:gh-pages` builds, clones the target `gh-pages` branch, replaces its contents, commits, and (after confirmation) pushes it. By default it targets `https://github.com/Yqnn/svg-path-editor-react.git`; override it with `GH_PAGES_REPO` (and optionally `GH_PAGES_BASE`, `GH_PAGES_BRANCH`, `GH_PAGES_YES=1`).
+- `.github/workflows/deploy-gh-pages.yml` runs the tests, builds the app, and publishes `dist/` to the current repository's `gh-pages` branch on every push to `main`/`master`.
 
 ## Port notes
 

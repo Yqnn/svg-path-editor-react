@@ -31,31 +31,10 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Build for Yqnn/svg-path-editor
-        if: ${{ secrets.GH_PAGES_TOKEN != '' }}
-        run: npm run build:gh
-
-      - name: Build for current repository
-        if: ${{ secrets.GH_PAGES_TOKEN == '' }}
+      - name: Build
         run: npx tsc --noEmit && npx vite build --base=/${{ github.event.repository.name }}/
 
-      # Mirrors the deliverable to Yqnn/svg-path-editor's gh-pages branch when
-      # a GH_PAGES_TOKEN (fine-grained PAT with contents:write) is configured.
-      - name: Deploy to Yqnn/svg-path-editor
-        if: ${{ secrets.GH_PAGES_TOKEN != '' }}
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          personal_token: ${{ secrets.GH_PAGES_TOKEN }}
-          external_repository: Yqnn/svg-path-editor
-          publish_dir: ./dist
-          publish_branch: gh-pages
-          force_orphan: true
-          user_name: github-actions[bot]
-          user_email: github-actions[bot]@users.noreply.github.com
-
-      # Fallback: publish to this repository's gh-pages branch.
-      - name: Deploy to current repository
-        if: ${{ secrets.GH_PAGES_TOKEN == '' }}
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -2,16 +2,16 @@
 # Builds the app and updates the gh-pages branch of the target repository.
 #
 # Usage:
-#   GH_PAGES_REPO=https://github.com/Yqnn/svg-path-editor.git \
-#   GH_PAGES_BASE=/svg-path-editor/ \
+#   GH_PAGES_REPO=https://github.com/Yqnn/svg-path-editor-react.git \
+#   GH_PAGES_BASE=/svg-path-editor-react/ \
 #   sh ./scripts/deploy-gh-pages.sh
 #
 # Set GH_PAGES_YES=1 to push without the interactive confirmation.
 
 set -eu
 
-REPO="${GH_PAGES_REPO:-https://github.com/Yqnn/svg-path-editor.git}"
-BASE="${GH_PAGES_BASE:-/svg-path-editor/}"
+REPO="${GH_PAGES_REPO:-https://github.com/Yqnn/svg-path-editor-react.git}"
+BASE="${GH_PAGES_BASE:-/svg-path-editor-react/}"
 BRANCH="${GH_PAGES_BRANCH:-gh-pages}"
 MESSAGE="${GH_PAGES_MESSAGE:-Refreshed gh-pages from the React port}"
 

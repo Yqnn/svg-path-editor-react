@@ -11,7 +11,7 @@
     "dev": "vite",
     "start": "vite",
     "build": "tsc --noEmit && vite build",
-    "build:gh": "tsc --noEmit && vite build --base=/svg-path-editor/",
+    "build:gh": "tsc --noEmit && vite build --base=/svg-path-editor-react/",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
