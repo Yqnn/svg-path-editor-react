@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/svg-path-editor-react/sw.js', { scope: '/svg-path-editor-react/' })})}
